@@ -1,3 +1,106 @@
 ---
 title: Proxy pattern
 ---
+
+## Proxy Pattern nima?
+
+**Proxy Pattern** — bu structural design pattern bo‘lib, u boshqa bir target object bilan o‘zaro ishlashni nazorat qilish uchun proxy yaratadi. JavaScriptda bu pattern uchun, Proxy API ni ishlatsak bo'ladi.
+
+Proxy orqali biz object bilan bo‘layotgan har bir interaction ni (masalan, property ni o‘qish, yozish, method chaqirish) ushlab qolishimiz va o‘zimiz xohlagan behavior ni qo‘shishimiz mumkin.
+
+Proxy Pattern quyidagi holatlarda juda foydali:
+
+- **Access control** — object ga kirishni cheklash
+- **Validation** — object ga berilayotgan qiymatlarni tekshirish
+- **Logging** — qaysi property o‘qildi yoki o‘zgartirildi
+- **Lazy initialization** — object ni faqat kerak bo‘lganda yaratish
+- **Caching** — qayta-qayta hisoblanadigan qiymatlarni saqlash
+
+## JavaScript dagi Proxy object
+
+import { Badge } from "@astrojs/starlight/components";
+
+JavaScriptda <Badge text="Proxy" /> global constructor bo‘lib, u ikki argument qabul qiladi:
+
+```javascript
+const proxy = new Proxy(target, handler);
+```
+
+- **_target_** — asl object
+- **_handler_** — (interception logic) bu ma’lum bir operationni ushlab qoluvchi function (masalan get, set).
+
+Quyidagi misolda biz proxy orqali, object dan property o'qish jarayoniga o'zimizning logikamizi qo'shamiz:
+
+```javascript
+const user = {
+  name: "Alp Er To'nga",
+  age: 25,
+};
+
+const userProxy = new Proxy(user, {
+  get(target, property) {
+    console.log(`Accessing property: ${property}`);
+    return target[property];
+  },
+});
+
+console.log(userProxy.name);
+// Accessing property: name
+// Alp Er To'nga
+```
+
+Yuqoridagi misolda objectning **get** qilish jarayoniga o'zimizning funksiyamizi qo'shgan bo'lsak, quyida **set** qilish jarayoniga validation qo'shib ko'ramiz:
+
+```javascript
+const userProxy = new Proxy(user, {
+  set(target, property, value) {
+    if (property === "age" && value < 0) {
+      throw new Error("Age cannot be negative");
+    }
+
+    target[property] = value;
+    return true;
+  },
+});
+
+userProxy.age = 30; // OK
+userProxy.age = -5; // Error
+```
+
+Access control (himoyalangan property)
+
+```javascript
+const user = {
+  username: "admin",
+  password: "secret",
+};
+
+const secureUser = new Proxy(user, {
+  get(target, property) {
+    if (property === "password") {
+      throw new Error("Access denied");
+    }
+
+    return target[property];
+  },
+});
+
+console.log(secureUser.username);
+console.log(secureUser.password); // Error - Access denied
+```
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="tip" title="Pros">
+  **Control**: Proxylar ma’lum bir obyekt bilan o‘zaro aloqada bo‘lish
+  jarayonida qo‘shimcha funksionalliklarni oson qo‘shish imkonini beradi,
+  masalan ***validation***, ***logging***, ***formatting***,
+  ***notifications***, ***debugging***.
+</Aside>
+
+<Aside type="caution" title="Cons">
+  **Long handler execution**: Proxyni haddan tashqari ko‘p ishlatish yoki har
+  bir handler method chaqirilishida og‘ir (heavy) operatsiyalar bajarish
+  application performance iga salbiy ta’sir ko‘rsatishi mumkin. Shuning uchun
+  proxylarni performance-critical bo‘lgan code da ishlatmaslik tavsiya etiladi.
+</Aside>
