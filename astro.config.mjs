@@ -35,6 +35,10 @@ export default defineConfig({
               slug: "javascript/design/singleton",
             },
             {
+              label: "Proxy Pattern",
+              slug: "javascript/design/proxy",
+            },
+            {
               label: "Factory Pattern",
               slug: "javascript/design/factory",
             },

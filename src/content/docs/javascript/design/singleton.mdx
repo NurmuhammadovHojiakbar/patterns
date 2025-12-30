@@ -1,3 +1,117 @@
 ---
 title: Singleton Pattern
 ---
+
+## Singleton Pattern nima?
+
+**Singleton Pattern** — bu _creational design pattern_ bo‘lib, u class (klass) yoki objectning faqat **bir marta instantiate** bo'lishini kafolatlaydi va unga **global** tarzda murojaat qilish imkonini beradi. Ushbu yagona instance butun application bo‘ylab ulashilishi mumkin, shu sababli Singletonlar application ichida **global state**ni boshqarish uchun juda qulay hisoblanadi.
+
+Frontend ilovalarda bu pattern ko‘pincha:
+
+- global state
+- konfiguratsiya
+- logger
+- API client
+- cache yoki service manager
+
+uchun ishlatiladi.
+
+## Implementation
+
+### ES6 Class
+
+ES2015 class yordamida singleton yaratish quyidagi tarzda amalga oshiriladi:
+
+```javascript
+class ConfigService {
+  static instance;
+
+  constructor() {
+    if (ConfigService.instance) {
+      return ConfigService.instance;
+    }
+
+    this.apiUrl = "https://api.example.com";
+    ConfigService.instance = this;
+  }
+
+  getApiUrl() {
+    return this.apiUrl;
+  }
+}
+
+// Foydalanish
+const c1 = new ConfigService();
+const c2 = new ConfigService();
+
+console.log(c1 === c2); // true
+```
+
+Bu yerda classni qayta chaqirsak ham, doim bitta instance qaytaradi va xotirani tejashimizga yordam beradi.
+
+### Closure
+
+Biz class dan foydalanmasdan ham to‘g‘ridan-to‘g‘ri singleton yaratishimiz mumkin, bu esa ancha sodda va toza code yozishga olib keladi.
+
+Oddiy closure yordamida singleton yaratish uchun biz quyidagilarni bajarishimiz kerak:
+
+```javascript
+const Singleton = (function () {
+  let instance;
+
+  function createInstance() {
+    return {
+      apiUrl: "https://api.example.com",
+      logApiUrl: () => console.log("https://api.example.com"),
+    };
+  }
+
+  return {
+    getInstance() {
+      if (!instance) {
+        instance = createInstance();
+      }
+      return instance;
+    },
+  };
+})();
+
+// Foydalanish
+const a = Singleton.getInstance();
+const b = Singleton.getInstance();
+
+console.log(a === b); // true
+```
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="tip" title="Pros">
+  **Memory**: Instantiation ni faqat bitta instance bilan cheklash juda ko‘p
+  memory space ni tejashi mumkin. Har safar yangi instance uchun memory ajratish
+  o‘rniga, biz faqat bitta instance uchun memory ajratamiz va u butun
+  application davomida reference qilinadi.
+</Aside>
+
+<Aside type="caution" title="Cons">
+  **Testing**: Har safar yangi instance yarata olmaganimiz sababli, barcha
+  testlar oldingi test tomonidan o‘zgartirilgan global instance ga tayanadi. Bu
+  holatda testlarning bajarilish tartibi muhim bo‘ladi va bitta kichik o‘zgarish
+  ham butun test suite ning ishdan chiqishiga olib kelishi mumkin. Testlardan
+  so‘ng, testlar davomida kiritilgan o‘zgarishlarni bekor qilish uchun butun
+  instance’ni reset qilishimiz kerak bo‘ladi.
+</Aside>
+
+<Aside type="note" title="Note">
+  Yuqoridagi misollarda ko‘rsatilgan class implementation aslida ortiqcha
+  hisoblanadi. JavaScriptda to‘g‘ridan-to‘g‘ri object lar yaratishimiz mumkin
+  bo‘lgani uchun, aynan shu natijaga erishish uchun oddiy object dan
+  foydalanishimiz mumkin. Keling, object orqali singleton yaratishni ko‘rib chiqamiz!
+
+```javascript
+const apiConfig = Object.freeze({
+  apiUrl: "https://api.example.com",
+  logApiUrl: () => console.log("https://api.example.com"),
+});
+```
+
+</Aside>
