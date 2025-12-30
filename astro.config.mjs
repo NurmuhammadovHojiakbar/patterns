@@ -42,6 +42,10 @@ export default defineConfig({
               label: "Factory Pattern",
               slug: "javascript/design/factory",
             },
+            {
+              label: "Module Pattern",
+              slug: "javascript/design/module",
+            },
           ],
         },
       ],
