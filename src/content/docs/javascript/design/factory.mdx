@@ -1,0 +1,108 @@
+---
+title: Factory Pattern
+---
+
+## Factory Pattern nima?
+
+Factory Pattern — bu creational design pattern bo‘lib, object (obyekt) yaratish jarayonini alohida funksiyaga ajratib beradi. Ya’ni, new operatorini har joyda ishlatish o‘rniga, obyektlarni factory orqali yaratamiz.
+
+Bu yondashuv kodni:
+
+- tushunarliroq
+- kengaytirish osonroq
+- kam bog‘langan (loosely coupled)
+
+qiladi.
+
+## Oddiy object yaratish (Factorysiz)
+
+Avval oddiy usulni ko‘rib chiqamiz:
+
+```javascript
+const car1 = {
+  type: "sedan",
+  speed: 180,
+};
+
+const car2 = {
+  type: "suv",
+  speed: 220,
+};
+```
+
+import { Icon } from "@astrojs/starlight/components";
+
+<Icon class="svg-inline-block" name="information" color="goldenrod" /> **Muammo**:
+
+- Kod doimiy ravishda takrorlanadi
+- Yangi object (obyekt) qo‘shish qiyinlashadi
+- Logika markazlashmagan
+
+## Oddiy Factory Function
+
+Endi object yaratishni bitta funksiyaga o‘tkazamiz:
+
+```javascript
+function createCar(type, speed) {
+  return {
+    type,
+    speed,
+    drive() {
+      console.log(`${type} ${speed} km/soat tezlikda yurmoqda`);
+    },
+  };
+}
+
+const car1 = createCar("sedan", 180);
+const car2 = createCar("suv", 220);
+
+car1.drive(); // sedan 180 km/soat tezlikda yurmoqda
+car2.drive(); // suv 220 km/soat tezlikda yurmoqda
+```
+
+Factory funksiya orqali object yaratish bitta joyda amalga oshmoqda va bu nafaqat kodni o'zgartirishga qulay, balki kod takrorlanmayapti ham.
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="tip" title="Pros">
+  **DRY**: Factory pattern bir xil xususiyatlarga ega bo‘lgan bir nechta kichik
+  object’larni yaratishimiz kerak bo‘lganda foydali bo‘ladi. Factory function
+  joriy environment yoki user’ga xos configuration’ga qarab moslashtirilgan
+  custom object’ni osonlik bilan return qilishi mumkin.
+</Aside>
+
+<Aside type="caution" title="Cons">
+  **Not really a pattern**: JavaScript’da factory pattern asosan new keyword’idan foydalanmasdan object qaytaradigan function’dan iborat. ES6 arrow function’lar bizga har safar implicit ravishda object return qiladigan kichik factory function’larni yaratish imkonini beradi.
+
+Biroq, ko‘p hollarda har safar yangi object yaratish o‘rniga yangi instance’lar yaratish xotira (memory) jihatidan samaraliroq bo‘lishi mumkin.
+
+```javascript
+class Car {
+  constructor(type, speed, company) {
+    this.type = type;
+    this.speed = speed;
+    this.company = company;
+  }
+
+  async getCars() {
+    const cars = await fetch(`https://example.com/cars/${this.company}`);
+    return cars;
+  }
+}
+
+const car1 = new Car({
+  type: "sedan",
+  speed: 180,
+  company: "Toyota",
+});
+
+const car2 = new Car({
+  type: "suv",
+  speed: 220,
+  company: "Hyundai",
+});
+```
+
+Yaratilgan barcha object’lar uchun **getCars** method bir xil. Yangi instance’lar yaratish orqali **getCars** method’i object’ning o‘zida emas, balki prototype’da joylashadi, bu esa xotirani (memory) tejaydi.
+
+</Aside>
