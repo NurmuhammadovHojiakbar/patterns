@@ -46,6 +46,10 @@ export default defineConfig({
               label: "Module Pattern",
               slug: "javascript/design/module",
             },
+            {
+              label: "Prototype Pattern",
+              slug: "javascript/design/prototype",
+            },
           ],
         },
       ],
