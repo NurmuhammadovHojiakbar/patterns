@@ -1,3 +1,101 @@
 ---
 title: Module Pattern
 ---
+
+## Modul Pattern nima?
+
+Ilovangiz va codebase ingiz o‘sib borishi bilan, code ni maintainable va separated holda saqlash tobora muhimroq bo‘lib boradi. **Module pattern** sizga code ni kichikroq, reusable qismlarga bo‘lish imkonini beradi. Shuningdek, u code **encapsulation** ni qo‘llab-quvvatlaydi, chunki module ichidagi values default holatda **private** bo‘lib, module ichida saqlanadi va tashqaridan o‘zgartirib bo‘lmaydi. Faqat **export** keywordi orqali export qilingan values boshqa fayllar uchun accessible bo‘ladi. Agar biz ma’lum bir value ni explicit ravishda export qilmasak, o‘sha value moduldan tashqarida mavjud bo‘lmaydi. Bu, codebase ning boshqa qismlarida e’lon qilingan values uchun **name collision** xavfini kamaytiradi, chunki bu values global scope’da mavjud bo‘lmaydi.
+
+Demak, biz **_Modul pattern_** yordamida:
+
+- Global scope ni ifloslantirmaymiz
+- Kodni _reusable_ va _maintainable_ qila olamiz
+- _Private_ va _public_ methodlar/variables yaratishimiz mumkin
+
+## ES2015 modul sintaksisi
+
+ES2015 JavaScriptga built-in module larni olib keldi. Module — bu JavaScript codeni o‘z ichiga olgan fayl bo‘lib, oddiy script bilan solishtirganda behavior ida ayrim farqlarga ega.
+
+ES2015da modul yaratish uchun **export** va **import** kalit so‘zlari ishlatiladi.
+
+```javascript
+// math.js (Named export)
+const PI = 3.14159;
+
+function add(a, b) {
+    return a + b;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+// export qilamiz
+export { PI, add, multiply };
+```
+
+```javascript
+// logger.js (Default export)
+export default function log(message) {
+    console.log('LOG:', message);
+}
+```
+```javascript
+// main.js
+import { PI, add, multiply } from './math.js';
+import log from './logger.js';
+
+console.log(add(2, 3)); // 5
+console.log(PI);        // 3.14159
+
+log('Module pattern ishlaydi!'); // LOG: Module pattern ishlaydi!
+
+```
+
+## Private va Public metodlar yaratish
+
+ES2015 module pattern bilan **private variables** va **functions** yaratish mumkin:
+
+```javascript
+// counter.js
+let count = 0; // private variable
+
+function increment() { // private function
+    count++;
+}
+
+function getCount() { // public function
+    return count;
+}
+
+// public interface
+export default {
+    increment,
+    getCount
+};
+```
+```javascript
+// main.js
+import counter from './counter.js';
+
+counter.increment();
+counter.increment();
+console.log(counter.getCount()); // 2
+
+```
+> Bu yerda `count` va `increment` global scopeda mavjud emas, faqat `counter` orqali ulanish mumkin.
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="tip">
+**Encapsulation**: Kodni private va public qismlarga ajratadi
+</Aside>
+<Aside type="tip">
+**Reusability**: Modullarni boshqa loyihalarda ishlatish oson
+</Aside>
+<Aside type="tip">
+**Maintainability**: Kodni boshqarish va o‘zgartirish oson
+</Aside>
+<Aside type="tip">
+**Less namespace pollution**: Global variables ifloslanmaydi
+</Aside>
