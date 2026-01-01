@@ -54,6 +54,31 @@ export default defineConfig({
         },
       ],
     }),
+    starlight({
+      title: "Pattern",
+      description:
+        "JavaScript, React va Vue uchun zamonaviy frontend patternlar. Arxitektura, best practice va real loyihalar uchun amaliy qo‘llanma.",
+      customCss: ["./src/styles/global.css"],
+      social: [
+        {
+          icon: "github",
+          label: "GitHub",
+          href: "https://github.com/NurmuhammadovHojiakbar/patterns",
+        },
+      ],
+      sidebar: [
+        {
+          label: "Kirish",
+          items: [
+            {
+              label: "Kirish",
+              slug: "react/introduction",
+            },
+          ],
+        },
+        
+      ],
+    }),
   ],
   server: {
     open: true,
