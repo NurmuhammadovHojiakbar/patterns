@@ -9,6 +9,9 @@ export default defineConfig({
       title: "Pattern",
       description:
         "JavaScript, React va Vue uchun zamonaviy frontend patternlar. Arxitektura, best practice va real loyihalar uchun amaliy qo‘llanma.",
+      footer: {
+        content: '© 2026. By Hojiakbar Nurmuhammadov.',
+      },
       customCss: ["./src/styles/global.css"],
       social: [
         {
