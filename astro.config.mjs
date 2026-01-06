@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-
+import starlightSidebarTopics from "starlight-sidebar-topics";
+import starlightScrollToTop from "starlight-scroll-to-top";
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -17,41 +18,67 @@ export default defineConfig({
           href: "https://github.com/NurmuhammadovHojiakbar/patterns",
         },
       ],
-      sidebar: [
-        {
-          label: "Kirish",
-          items: [
-            {
-              label: "Kirish",
-              slug: "introduction",
-            },
-          ],
-        },
-        {
-          label: "Design Patterns",
-          items: [
-            {
-              label: "Singleton Pattern",
-              slug: "javascript/design/singleton",
-            },
-            {
-              label: "Proxy Pattern",
-              slug: "javascript/design/proxy",
-            },
-            {
-              label: "Factory Pattern",
-              slug: "javascript/design/factory",
-            },
-            {
-              label: "Module Pattern",
-              slug: "javascript/design/module",
-            },
-            {
-              label: "Prototype Pattern",
-              slug: "javascript/design/prototype",
-            },
-          ],
-        },
+      plugins: [
+        starlightSidebarTopics([
+          {
+            label: "JavaScript Patternlar",
+            link: "/introduction",
+            icon: "open-book",
+            items: [
+              {
+                label: "Kirish",
+                slug: "introduction",
+              },
+              {
+                label: "Design Patterns",
+                items: [
+                  {
+                    label: "Singleton Pattern",
+                    slug: "javascript/design/singleton",
+                  },
+                  {
+                    label: "Proxy Pattern",
+                    slug: "javascript/design/proxy",
+                  },
+                  {
+                    label: "Factory Pattern",
+                    slug: "javascript/design/factory",
+                  },
+                  {
+                    label: "Module Pattern",
+                    slug: "javascript/design/module",
+                  },
+                  {
+                    label: "Prototype Pattern",
+                    slug: "javascript/design/prototype",
+                  },
+                ],
+              },
+              {
+                label: "Rendering Patterns",
+                items: [
+                  {
+                    label: "Islands Architecture",
+                    slug: "javascript/rendering/islands-architecture",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "React Patternlar",
+            link: "/react",
+            icon: "open-book",
+            items: [],
+          },
+          {
+            label: "Vue Patternlar",
+            link: "/vue",
+            icon: "open-book",
+            items: [],
+          },
+        ]),
+        starlightScrollToTop(),
       ],
     }),
   ],

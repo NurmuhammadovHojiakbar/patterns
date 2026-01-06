@@ -2,3 +2,7 @@
     display: inline-block;
     vertical-align: text-top;
 }
+
+.starlight-sidebar-topics{
+    display: none;
+}

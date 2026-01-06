@@ -11,3 +11,28 @@ hero:
       link: /introduction/
       icon: right-arrow
 ---
+
+import { CardGrid, Card, LinkCard } from "@astrojs/starlight/components";
+
+<CardGrid stagger>
+  <Card title="Javascript Patterns" icon="seti:javascript">
+    Includes: Site navigation, search, internationalization, SEO, easy-to-read
+    typography, code highlighting, dark mode and more.
+    <LinkCard title="O‘qishni boshlash" href="/introduction/" />
+  </Card>
+  <Card title="React Patterns" icon="seti:react">
+    Leverage the full power and performance of Astro. Extend Starlight with your
+    favorite Astro integrations and libraries.
+    <LinkCard title="O‘qishni boshlash" href="/react/" />
+  </Card>
+  <Card title="Vue Patterns" icon="seti:vue">
+    Bring your favorite markup language. Starlight gives you built-in
+    frontmatter validation with TypeScript type-safety.
+    <LinkCard title="O‘qishni boshlash" href="/vue/" />
+  </Card>
+  <Card title="Architecture patterns" icon="open-book">
+    Starlight ships as a framework-agnostic, complete docs solution. Extend with
+    React, Vue, Svelte, Solid, and more.
+    <LinkCard title="O‘qishni boshlash" href="/architecture/" />
+  </Card>
+</CardGrid>
