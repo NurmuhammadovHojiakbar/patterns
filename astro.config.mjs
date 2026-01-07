@@ -49,6 +49,10 @@ export default defineConfig({
                     slug: "javascript/design/module",
                   },
                   {
+                    label: "Observer Pattern",
+                    slug: "javascript/design/observer",
+                  },
+                  {
                     label: "Prototype Pattern",
                     slug: "javascript/design/prototype",
                   },
