@@ -3,3 +3,183 @@ title: Prototype Pattern
 ---
 
 ## Prototype Pattern nima?
+
+import { Badge, Tabs, TabItem, Aside } from "@astrojs/starlight/components";
+
+**Prototype pattern** — bu **_creational_** design pattern bo‘lib, objectlarni <Badge text="class" /> orqali emas, balki mavjud objectni _clone_ qilish orqali yaratishga imkon beradi. Bu pattern object yaratish jarayonini soddalashtiradi va performance ni yaxshilaydi. **Prototype** JavaScriptga xos (native) bo‘lgan obyekt bo‘lib, obyektlar unga **prototype chain** orqali murojaat qiladi.
+
+Ba'zan biz mavjud object bilan bir xil yoki o'xshash yangi object yaratishimiz kerak bo'ladi. Agar object yaratish jarayoni murakkab bo'lsa yoki ko'p resurslarni talab qilsa, har safar yangidan yaratish samarasiz bo'ladi. Masalan:
+
+- Object ko'plab propertylar bilan to'ldirilgan
+- Object yaratish uchun database query kerak
+- Object murakkab initialization logikasiga ega
+
+Prototype pattern mavjud objectni prototype sifatida ishlatib, uni clone qilish orqali yangi object yaratishni taklif qiladi. JavaScriptda bu quyidagilar orqali amalga oshiriladi: `Object.create()`,`Object.assign()`,spread operator (`{ ...obj }`),custom `clone()` method
+
+## Object.create() yordamida
+
+```javascript
+// Prototype object
+const carPrototype = {
+  wheels: 4,
+  engine: "V6",
+
+  drive() {
+    console.log(`${this.model} harakatlanmoqda...`);
+  },
+
+  clone() {
+    return Object.create(this);
+  },
+};
+
+// Prototype dan yangi object yaratish
+const myCar = Object.create(carPrototype);
+myCar.model = "Tesla Model 3";
+myCar.color = "Qizil";
+
+myCar.drive(); // Tesla Model 3 harakatlanmoqda...
+
+// Clone qilish
+const anotherCar = myCar.clone();
+anotherCar.model = "Tesla Model Y";
+anotherCar.drive(); // Tesla Model Y harakatlanmoqda...
+```
+
+Bu yerda:
+
+- `carPrototype` — prototype object
+- `myCar` va `anotherCar` — shu prototypedan clone qilingan objectlar
+
+Prototype chain qanday ishlaydi?
+
+```javascript
+console.log(myCar.__proto__ === carPrototype); // true
+```
+
+Agar method objectning o‘zida topilmasa, JavaScript uni prototype chain bo‘ylab qidiradi.
+
+## Constructor yordamida
+
+<Tabs>
+    <TabItem label="Function" icon="seti:crystal_embedded">
+        ```javascript
+        function Car(model, color) {
+            this.model = model;
+            this.color = color;
+        }
+
+        Car.prototype.clone = function() {
+            return new Car(this.model, this.color);
+        };
+
+        Car.prototype.getInfo = function() {
+            return `${this.model} - ${this.color}`;
+        };
+
+        const originalCar = new Car('BMW X5', "Qora");
+        console.log(originalCar.getInfo()); // BMW X5 - Qora
+
+        const clonedCar = originalCar.clone();
+        clonedCar.color = 'Oq';
+        console.log(clonedCar.getInfo());
+
+        ```
+    </TabItem>
+
+    <TabItem label="ES6 Class" icon="seti:crystal_embedded">
+        ```javascript
+        class Car {
+            constructor(model, color){
+                this.model = model;
+                this.color = color;
+            }
+
+            clone(){
+                return new Car(this.model, this.color);
+            }
+
+            getInfo(){
+                return `${this.model} - ${this.color}`;
+            }
+        }
+
+        const originalCar = new Car('BMW X5', "Qora");
+        console.log(originalCar.getInfo()); // BMW X5 - Qora
+
+        const clonedCar = originalCar.clone();
+        clonedCar.color = 'Oq';
+        console.log(clonedCar.getInfo());
+
+        ```
+    </TabItem>
+
+</Tabs>
+
+## Shallow va Deep clone
+
+```javascript
+class Person {
+  constructor(name, address) {
+    this.name = name;
+    this.address = address;
+  }
+
+  // Shallow clone - faqat birinchi darajadagi propertylar
+  shallowClone() {
+    return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+  }
+
+  // Deep clone - barcha nested objectlar bilan
+  deepClone() {
+    // return JSON.parse(JSON.stringify(this));
+    // 2022 yildan boshlab barcha modern browserlarda mavjud
+    return structuredClone(this);
+  }
+}
+
+const person1 = new Person("Anvar", { city: "Toshkent", street: "Amir Temur" });
+
+// Shallow clone
+const person2 = person1.shallowClone();
+person2.address.city = "Samarqand";
+console.log(person1.address.city); // Samarqand (o'zgardi!)
+
+// Deep clone
+const person3 = person1.deepClone();
+person3.address.city = "Buxoro";
+console.log(person1.address.city); // Samarqand (o'zgarmadi)
+```
+
+<Aside type="tip" title="Pros">
+  <div>
+    **Performance**: Murakkab objectlarni clone qilish yangi object yaratishdan
+    tezroq bo'lishi mumkin.
+  </div>
+  <div>
+    **Dinamik konfiguratsiya**: Runtime da objectlar yaratish va sozlash oson.
+  </div>
+  <div>
+    **Code takrorlanishini kamaytirish**: Bir xil tipda ko'plab objectlar
+    yaratish osonlashadi.
+  </div>
+  <div>
+    **Initialization murakkabligini yashirish**: Client object yaratish
+    detallari haqida bilishi shart emas.
+  </div>
+</Aside>
+
+<Aside type="caution" title="Cons">
+  <div>
+    **Deep cloning murakkabligi**: Nested objectlar bilan ishlashda qo'shimcha
+    logika kerak.
+  </div>
+  <div>
+    **Circular reference**: Agar objectda o'ziga havola bo'lsa, muammo yuzaga
+    kelishi mumkin.
+  </div>
+  <div>
+    **Hidden dependencies**: Clone qilingan objectda kutilmagan bog'liqliklar
+    bo'lishi mumkin.
+  </div>
+</Aside>
