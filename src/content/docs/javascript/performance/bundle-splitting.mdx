@@ -8,6 +8,8 @@ import { Badge } from "@astrojs/starlight/components";
 
 Zamonaviy web applicationlar yaratishda <Badge variant="tip" text="Webpack" /> yoki <Badge variant="tip" text="Rollup" /> kabi <Badge text="bundler" />lar ilovaning <Badge variant="caution" text="source code" />ini olib, uni bitta yoki bir nechta <Badge text="bundle" />larga yig‘adi. Foydalanuvchi websaytga kirganda, ushbu bundle so‘raladi va yuklanadi, shundan so‘ng ma’lumotlar foydalanuvchi ekranida ko‘rsatiladi.
 
+**Bundler** bir `entry` file qabul qiladi va shu fayldan codeni bundle qilishni boshlaydi. Agar biz boshqa fayllardan modulelarni `import` qilgan bo‘lsak, bundler ushbu modulelarga kirib chiqadi va ularni ham bundlega qo‘shadi.
+
 **V8** kabi JavaScript **engine**lar foydalanuvchi tomonidan so‘ralgan data yuklanish jarayonining o‘zida uni <Badge text="parse" /> va <Badge text="compile" /> qila oladi. Garchi zamonaviy browserlar codeni imkon qadar tez va performant tarzda parse va compile qilish darajasiga yetgan bo‘lsa ham, jarayonning ikki muhim bosqichini optimizatsiya qilish baribir developer zimmasida qoladi: **loading time** va **execution time**. Biz execution timeni imkon qadar qisqa saqlashimiz kerak, chunki u **main thread**ni bloklab qo‘ymasligi lozim.
 
 Zamonaviy browserlar bundleni kelib tushishi bilan **stream** qila olsa ham, foydalanuvchi qurilmasida birinchi **pixel** chizilishidan (paint) oldin baribir sezilarli vaqt o‘tishi mumkin. Bundle qanchalik katta bo‘lsa, engine birinchi rendering call yozilgan qatorgacha yetib borishi shunchalik ko‘p vaqt oladi. Shu vaqtgacha foydalanuvchi bo‘sh (blank) ekranga qarab kutib o‘tirishga majbur bo‘ladi — bu esa juda ham asabiylashtiruvchi holat bo‘lishi mumkin.

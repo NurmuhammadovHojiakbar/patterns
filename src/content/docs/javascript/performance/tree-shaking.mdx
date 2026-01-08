@@ -1,0 +1,129 @@
+---
+title: Tree Shaking
+---
+
+## Tree Shaking nima?
+
+**Tree Shaking** — bu modern JavaScript bundlerlari (masalan, Webpack, Rollup) qo‘llaydigan optimizatsiya texnikasi bo‘lib, ishlatilmayotgan kodni (dead code) yakuniy bundledan olib tashlash imkonini beradi. Bu natijada bundle hajmini kamaytiradi va saytning yuklanish tezligini oshiradi. Agar sizning projectingizda bir nechta library yoki module bo‘lsa, lekin siz ulardan faqat bir qismini ishlatsangiz, Tree Shaking ishlatilmagan kodni olib tashlaydi.
+
+import { Aside, Badge, Tabs, TabItem } from "@astrojs/starlight/components";
+
+<Aside type="note" title="Muhim">
+  Tree shaking faqat ES6 module sintaksisi (
+  <Badge variant="danger" text="import" />/<Badge
+    variant="danger"
+    text="export"
+  />) bilan ishlaydi. CommonJS (
+  <Badge variant="danger" text="require" />/
+  <Badge variant="danger" text="module.exports" />) bilan ishlamaydi.
+</Aside>
+
+## Tree Shaking qanday ishlaydi?
+
+Tree shaking jarayonida bundler sizning kodingizni tahlil qiladi va faqat haqiqatda ishlatilayotgan funksiyalar va o'zgaruvchilarni final bundlega qo'shadi. Bu jarayon daraxt silkitishga o'xshaydi - siz daraxtni silkitganingizda quruq barglar tushib ketadi, lekin jonli barglar qoladi.
+
+Tree Shaking ishlashini shunday tasavvur qilish mumkin:
+
+```javascript
+math.js
+ ├─ sum()         ❌ ishlatilmaydi
+ └─ multiply()    ✅ ishlatiladi
+
+Bundle’dagi natija:
+ └─ multiply() ✅
+
+```
+
+Tree Shaking bo‘lmagan holatda:
+
+```javascript
+Bundle’dagi natija:
+ ├─ sum()         ❌
+ └─ multiply()    ✅
+
+```
+
+Keling endi bu jarayonni javascript yordamida amalga oshirib ko‘ramiz:
+
+<Tabs>
+  <TabItem label="math.js" icon="seti:crystal_embedded">
+    ```javascript 
+    export function sum(x,y){
+        return x + y
+    }
+
+    export function multiply(x,y){
+        return x * y
+    }
+
+    ```
+
+  </TabItem>
+  <TabItem label="index.js" icon="seti:crystal_embedded">
+    ```javascript
+    import { multiply } from "./math.js"
+    
+    console.log(multiply(5,6))
+     ```
+  </TabItem>
+  <TabItem label="bundle.js" icon="seti:crystal_embedded">
+    ```javascript 
+    (() => {"use strict";function o(l,n){return l*n}console.log(o(5,6));})()
+    ```
+  </TabItem>
+</Tabs>
+
+## Side Effects
+
+**Side effect** — bu function yoki module o‘zidan tashqaridagi `state`ga ta’sir qiladigan har qanday amal.
+
+Tree Shakingning asosiy dushmani aynan **_side effect_** hisoblanadi. Chunki bundler (Webpack, Rollup) kodni olib tashlash xavfsizmi yoki yo‘qmi — aynan shunga qarab qaror qiladi.
+
+Agar biror function yoki module global variableni o‘zgartirsa, tashqi objectni mutate qilsa, browser API (`localStorage`, `document`, `window`) bilan ishlasa, import qilinganda avtomatik ishga tushsa, bu side effect hisoblanadi.
+
+```javascript
+// Bu module import qilingan zahoti ishga tushadi — Tree Shaking uchun xavfli.
+console.log("Analytics initialized"); // ❌ side effect
+
+let counter = 0;
+
+// bundler bu function olib tashlansa, global behavior o‘zgarib ketmasligiga ishonch hosil qila olmaydi
+export function increment() {
+  counter++; // ❌ side effect
+}
+
+// Bu yerda list tashqaridan kelgan reference — mutation bor.
+export function addItem(list, item) {
+  list.push(item); // ❌ side effect
+  return list;
+}
+
+// Bundler localStorage bilan bog‘liq kodni olib tashlashga jur’at qilmaydi
+export function saveUser(user) {
+  localStorage.setItem("user", JSON.stringify(user)); // ❌ side effect
+}
+
+// Bu global prototype pollution, butun application behaviorini o‘zgartiradi
+Array.prototype.last = function () {
+  return this[this.length - 1];
+};
+```
+
+Quyida Tree Shakingga mos misollarni ko‘rib chiqamiz:
+
+```javascript
+// Bir xil input → bir xil output. Tashqi state yo‘q
+export function add(a, b) {
+  return a + b; // ✅ side effect yo‘q
+}
+
+// Original list o‘zgarmaydi
+export function addItem(list, item) {
+  return [...list, item]; // ✅
+}
+
+// Side effect bor, lekin dependency explicit
+export function saveUser(user, storage) {
+  storage.setItem("user", JSON.stringify(user)); // ✅ controlled
+}
+```

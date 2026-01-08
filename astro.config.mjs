@@ -74,6 +74,10 @@ export default defineConfig({
                     label: "Bundle Splitting",
                     slug: "javascript/performance/bundle-splitting",
                   },
+                  {
+                    label: "Tree Shaking",
+                    slug: "javascript/performance/tree-shaking",
+                  },
                 ],
               },
             ],
