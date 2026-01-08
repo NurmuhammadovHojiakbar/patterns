@@ -10,6 +10,29 @@ export default defineConfig({
       title: "Pattern",
       description:
         "JavaScript, React va Vue uchun zamonaviy frontend patternlar. Arxitektura, best practice va real loyihalar uchun amaliy qo‘llanma.",
+      head: [
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "https://patterns.uz/og-image.png",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:url",
+            content: "https://patterns.uz",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:type",
+            content: "website",
+          },
+        },
+      ],
       customCss: ["./src/styles/global.css"],
       social: [
         {
