@@ -6,8 +6,71 @@ title: Observer Pattern
 
 **Observer Pattern** — bu _**behavioral**_ design pattern bo‘lib, u yordamida biz ma’lum obyektlarni — **observers**ni — boshqa bir obyektga, ya’ni **observable**ga subscribe qila olamiz. Qachonki biror event sodir bo‘lsa, observable barcha **observer**larni xabardor qiladi (notify qiladi). Bu pattern **one-to-many dependency** yaratadi, bitta Subject → ko‘p Observers.
 
-Tasavvur qiling, siz yangiliklar saytini yaratyapsiz. Foydalanuvchilar turli mavzulardagi yangiliklarga obuna bo'lishni xohlashadi. Har safar yangi maqola chiqganda, barcha obunachilarga xabar yuborish kerak. Agar buni oddiy usulda qilsak:
+Subject(observable) object odatda 3 ta muhim qismdan iborat bo‘ladi:
 
-- Har bir yangilik turi uchun alohida kod yozish kerak
-- Yangi obunachi turi qo'shganda ko'p joylarni o'zgartirish kerak
-- Code tight coupling bo'ladi
+- **observers**: ma’lum bir event sodir bo‘lganda xabardor qilinadigan observerlar ro’yxati
+- **subscribe()**: observerlarni observers ro‘yxatiga qo‘shish uchun method
+- **unsubscribe()**: observerlarni observers ro‘yxatidan olib tashlash uchun method
+- **notify()**: ma’lum bir event sodir bo‘lganda barcha observerlarni xabardor qilish uchun method
+
+## Oddiy misol (Vanilla JavaScript)
+
+```javascript
+class Subject {
+  constructor() {
+    this.observers = [];
+  }
+  subscribe(observer) {
+    this.observers.push(observer);
+  }
+  unsubscribe(observer) {
+    this.observers = this.observers.filter((obs) => obs !== observer);
+  }
+  notify(data) {
+    this.observers.forEach((observer) => observer(data));
+  }
+}
+```
+
+Endi biz `subscribe` methodi orqali observerlarni `observers` ro‘yxatiga qo‘sha olamiz, `unsubscribe` methodi orqali ularni olib tashlaymiz va `notify` methodi yordamida barcha subscribe bo‘lganlarni xabardor qilamiz.
+
+```javascript
+import { toast } from "react-toastify";
+
+const subject = new Subject();
+
+const logger = (log) => console.log("Log: ", log);
+const toastify = (data) => toast(`Toast: ${data}`);
+
+subject.subscribe(logger);
+subject.subscribe(toastify);
+
+subject.notify("Yangi ma'lumot!");
+// Log: Yangi ma'lumot!
+// Toast: Yangi ma'lumot!
+
+subject.unsubscribe(logger);
+subject.notify("Yana yangilik!");
+// Toast: Yana yangilik!
+```
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="tip" title="Pros">
+  **Separation of Concerns**: **_Observer_** obyektlar **_observable_** obyektga
+  qattiq bog‘lanmagan (tightly coupled) bo‘lib, istalgan vaqtda bog‘lash yoki
+  ajratish ((de)coupled) mumkin. Observable obyekt eventlarni kuzatish uchun
+  javobgar bo‘lsa, observerlar esa faqat qabul qilingan datani qayta ishlash
+  bilan shug‘ullanadi.
+</Aside>
+
+<Aside type="caution" title="Cons">
+  <div>
+    **Memory leaks**: Unsubscribe qilmasangiz memory leak bo'lishi mumkin
+  </div>
+  <div>**Performance**: Ko'p observerlar bo'lsa sekinlashishi mumkin</div>
+  <div>
+    **Unexpected updates**: Observerlar ketma-ketligi noaniq bo'lishi mumkin
+  </div>
+  <div>**Debugging qiyinligi**: Ko'p observerlar bo'lsa debug qilish qiyin</div>
+</Aside>
