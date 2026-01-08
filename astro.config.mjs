@@ -67,6 +67,15 @@ export default defineConfig({
                   },
                 ],
               },
+              {
+                label: "Performance Patterns",
+                items: [
+                  {
+                    label: "Bundle Splitting",
+                    slug: "javascript/performance/bundle-splitting",
+                  },
+                ],
+              },
             ],
           },
           {
