@@ -81,15 +81,6 @@ export default defineConfig({
                   },
                 ],
               },
-              // {
-              //   label: "Rendering Patterns",
-              //   items: [
-              //     {
-              //       label: "Islands Architecture",
-              //       slug: "javascript/rendering/islands-architecture",
-              //     },
-              //   ],
-              // },
               {
                 label: "Performance Patterns",
                 items: [
