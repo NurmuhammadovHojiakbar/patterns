@@ -81,15 +81,15 @@ export default defineConfig({
                   },
                 ],
               },
-              {
-                label: "Rendering Patterns",
-                items: [
-                  {
-                    label: "Islands Architecture",
-                    slug: "javascript/rendering/islands-architecture",
-                  },
-                ],
-              },
+              // {
+              //   label: "Rendering Patterns",
+              //   items: [
+              //     {
+              //       label: "Islands Architecture",
+              //       slug: "javascript/rendering/islands-architecture",
+              //     },
+              //   ],
+              // },
               {
                 label: "Performance Patterns",
                 items: [
@@ -100,6 +100,10 @@ export default defineConfig({
                   {
                     label: "Tree Shaking",
                     slug: "javascript/performance/tree-shaking",
+                  },
+                  {
+                    label: "Browser Hints",
+                    slug: "javascript/performance/browser-hints",
                   },
                 ],
               },

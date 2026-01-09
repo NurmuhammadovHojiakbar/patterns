@@ -1,0 +1,76 @@
+---
+title: Browser Hints (Resource Hints)
+---
+
+Resource Hints nima?
+
+**Resource hints** - bu brauzerlarga qaysi resurslar tez orada kerak bo'lishini oldindan aytib berish uchun ishlatiladigan **HTML link relations** to‘plamidir. Ular sahifa yuklanish tezligini, performance va user experience (UX) ni sezilarli darajada yaxshilaydi.
+
+Nega Resource Hints kerak? Brauzer odatda quyidagi ketma-ketlikda ishlaydi:
+
+```
+1. HTML yuklanadi
+2. HTMLni o‘qish jarayonida CSS va JS aniqlanadi
+3. Resourcelar(CSS, JS, Image, Video, Fonts va boshqalar) so‘raladi
+4. Sahifa render qilinadi
+```
+
+Resource Hints yordamida biz brauzerga shunday deyishimiz mumkin: "Biz bu sahifada mana bu resursni(masalan: font) ishlatganmiz, buni hozirdan tayyorlab qo‘y". Bunday qilish orqali biz tezroq `FCP` va yaxshiroq **Core Web Vitals**ga erishamiz.
+
+## Resource Hints turlari
+
+### DNS prefetching
+
+Biz saytda keyinroq ishlatishimiz bo‘lgan assetlar boladi va `dns prefetching` browser ni bu haqida ogohlantirib oldindan `dns` ni topib qoyadi. qachonki biz **rasm**, **audio**, **video** yuklamoqchi bolganimizda, endi dnsni qidirishga vaqt sarflashimiz shart bolmaydi.
+
+```html
+<link rel="dns-prefetch" href="https://cdn.patterns.uz" />
+```
+
+Ba‘zida 3-tomondan **code** yoki ijtimoiy tarmoqlardan malumotlar yuklashimiz kerak boladi. bunday holatda ham dns prefetching qilib ketish foydali bo‘ladi.
+
+### Preconnect
+
+**Preconnect** DNS lookup, TCP handshake va TLS negotiationni oldindan bajaradi. Bu DNS prefetchdan ko‘ra kuchliroq, lekin ko‘proq resurs talab qiladi.
+
+```html
+<link rel="preconnect" href="https://cdn.patterns.uz" crossorigin />
+```
+
+**Preconnect**ning eng keng tarqalgan **use case**laridan biri bu _Google Fonts_. Google Fonts `@font-face` declarations ni yetkazib beradigan `https://fonts.googleapis.com` domainiga va font fayllarini yuklab beradigan `https://fonts.gstatic.com` domainiga `preconnect` qilishni tavsiya etadi.
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+```
+
+### Prefetch
+
+```html
+<link rel="prefetch" href="/image.png" />
+<link rel="prefetch" href="/pages/about.js" />
+```
+
+**dns prefetching**dan farqi bu usulda biz rostan ham fileni yuklab olamiz va browser uni keyinchalik ishlatish uchun keshlab qoyadi. **prefetching**lar odatda background(idle time yani browser active lekin user hali biror eventdan foydalanmagan vaqt)da amalga oshiriladi.
+
+### Preload
+
+**Preload** joriy sahifa uchun critical resurslarni yuqori prioritet bilan yuklab oladi. Bu eng kuchli va eng ehtiyotkorlik bilan ishlatilishi kerak bo'lgan hint. **Prefetching** yaqin kelajakda so‘ralishi mumkin bo‘lgan resurslarni cache qilish uchun juda yaxshi usul bo‘lsa, **preload** esa darhol ishlatilishi kerak bo‘lgan resurslarni oldindan yuklash imkonini beradi. Masalan, dastlabki render vaqtida ishlatiladigan ma’lum bir font yoki foydalanuvchi darhol ko‘radigan ayrim images bo‘lishi mumkin.
+
+```html
+<link
+  rel="preload"
+  href="/fonts/inter.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+```
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="note" title="CORS uchun muhim">
+  Font va fetch requestlar uchun doimo crossorigin atributini qo‘shing.
+</Aside>
+
+Barcha zamonaviy brauzerlar (Chrome, Firefox, Safari, Edge) resource hintlarni qo‘llab-quvvatlaydi. Resource hints web performance optimallashtirish uchun kuchli vositalardir. Ularni to‘g‘ri ishlatish sahifa yuklanish vaqtini 20-30% gacha kamaytirishi mumkin. Asosiy qoida - faqat critical va kerak bo‘ladigan resurslar uchun ishlatish, ortiqcha ishlatmaslik.
