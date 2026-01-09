@@ -4,7 +4,7 @@ title: Tree Shaking
 
 ## Tree Shaking nima?
 
-**Tree Shaking** — bu modern JavaScript bundlerlari (masalan, Webpack, Rollup) qo‘llaydigan optimizatsiya texnikasi bo‘lib, ishlatilmayotgan kodni (dead code) yakuniy bundledan olib tashlash imkonini beradi. Bu natijada bundle hajmini kamaytiradi va saytning yuklanish tezligini oshiradi. Agar sizning projectingizda bir nechta library yoki module bo‘lsa, lekin siz ulardan faqat bir qismini ishlatsangiz, Tree Shaking ishlatilmagan kodni olib tashlaydi.
+**Tree Shaking** — bu modern JavaScript bundlerlari (masalan, Webpack, Vite, Rollup) qo‘llaydigan optimizatsiya texnikasi bo‘lib, ishlatilmayotgan kodni (dead code) yakuniy bundledan olib tashlash imkonini beradi. Bu natijada bundle hajmini kamaytiradi va saytning yuklanish tezligini oshiradi. Agar sizning projectingizda bir nechta library yoki module bo‘lsa, lekin siz ulardan faqat bir qismini ishlatsangiz, Tree Shaking ishlatilmagan kodni olib tashlaydi.
 
 import { Aside, Badge, Tabs, TabItem } from "@astrojs/starlight/components";
 
@@ -77,7 +77,7 @@ Keling endi bu jarayonni javascript yordamida amalga oshirib ko‘ramiz:
 
 **Side effect** — bu function yoki module o‘zidan tashqaridagi `state`ga ta’sir qiladigan har qanday amal.
 
-Tree Shakingning asosiy dushmani aynan **_side effect_** hisoblanadi. Chunki bundler (Webpack, Rollup) kodni olib tashlash xavfsizmi yoki yo‘qmi — aynan shunga qarab qaror qiladi.
+Tree Shakingning asosiy dushmani aynan **_side effect_** hisoblanadi. Chunki bundler (Webpack, Vite, Rollup) kodni olib tashlash xavfsizmi yoki yo‘qmi — aynan shunga qarab qaror qiladi.
 
 Agar biror function yoki module global variableni o‘zgartirsa, tashqi objectni mutate qilsa, browser API (`localStorage`, `document`, `window`) bilan ishlasa, import qilinganda avtomatik ishga tushsa, bu side effect hisoblanadi.
 
