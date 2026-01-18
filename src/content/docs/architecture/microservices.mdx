@@ -1,0 +1,51 @@
+---
+title: Microservices
+description: Mikroservislar arxitekturasi — zamonaviy backend tizimlarining asosi.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Mikroservislar nima?
+
+**Mikroservislar arxitekturasi** — bu katta, monolit dasturni kichik, mustaqil va o'zaro bog'langan xizmatlarga (servislarga) bo'lish usulidir. Har bir servis:
+
+- Bitta aniq biznes vazifani bajaradi.
+- Mustaqil ishlaydi (deploy qilinadi).
+- Boshqa servislar bilan API (HTTP, gRPC) yoki Event Bus orqali muloqot qiladi.
+- O'zining shaxsiy ma'lumotlar bazasiga ega bo'lishi mumkin.
+
+## Monolit vs Mikroservislar
+
+| Monolit                                                    | Mikroservislar                                                                |
+| :--------------------------------------------------------- | :---------------------------------------------------------------------------- |
+| **Bitta Codebase:** Hamma narsa bitta joyda.               | **Bo'lingan Codebase:** Har bir servis alohida repozitoriyda.                 |
+| **Oson Deployment:** Bitta faylni serverga qo'yish kifoya. | **Murakkab Deployment:** O'nlab servislarni orkestratsiya qilish kerak (K8s). |
+| **Scaling:** Butun dasturni ko'paytirish kerak.            | **Scaling:** Faqat yuklama tushayotgan servisni ko'paytirish mumkin.          |
+| **Tech Stack:** Bitta til va framework.                    | **Tech Stack:** Har bir servis har xil tilda yozilishi mumkin.                |
+
+## Asosiy Komponentlar
+
+### 1. API Gateway
+
+Foydalanuvchi so'rovlarini qabul qilib, kerakli mikroservisga yo'naltiruvchi "darvoza". U shuningdek avtorizatsiya va rate limiting vazifalarini ham bajaradi.
+
+### 2. Service Discovery
+
+Servislar bir-birini topishi uchun (IP manzillari o'zgarib turishi mumkin) ishlatiladigan mexanizm (masalan, Consul, Eureka).
+
+### 3. Database per Service
+
+Har bir servisning ma'lumotlari izolyatsiya qilingan bo'lishi kerak. Bir servis boshqa servisning bazasiga to'g'ridan-to'g'ri kirmasligi lozim.
+
+## Qachon ishlatish kerak?
+
+<Aside type="tip">
+  Agar loyiha juda katta bo'lsa, jamoa soni ko'p bo'lsa (masalan, 50+ dasturchi)
+  va turli qismlar mustaqil rivojlanishi kerak bo'lsa, Mikroservislar ayni
+  muddao.
+</Aside>
+
+<Aside type="caution">
+  Kichik loyihalar va startaplar uchun Monolit (yoki Modular Monolith) yaxshiroq
+  tanlov. Mikroservislar keraksiz murakkablik olib kelishi mumkin.
+</Aside>

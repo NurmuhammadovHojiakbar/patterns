@@ -44,6 +44,49 @@ export default defineConfig({
       plugins: [
         starlightSidebarTopics([
           {
+            label: "Arxitektura",
+            link: "/architecture",
+            icon: "puzzle",
+            items: [
+              {
+                label: "Umumiy",
+                items: [
+                  { label: "Kirish", slug: "architecture" },
+                  {
+                    label: "Clean Architecture",
+                    slug: "architecture/clean-architecture",
+                  },
+                ],
+              },
+              {
+                label: "Frontend",
+                items: [
+                  { label: "MVC", slug: "architecture/mvc" },
+                  { label: "MVVM", slug: "architecture/mvvm" },
+                  { label: "MVP", slug: "architecture/mvp" },
+                  { label: "Flux", slug: "architecture/flux" },
+                  {
+                    label: "Atomic Design",
+                    slug: "architecture/atomic-design",
+                  },
+                  { label: "FSD", slug: "architecture/fsd" },
+                ],
+              },
+              {
+                label: "Backend",
+                items: [
+                  {
+                    label: "Microservices",
+                    slug: "architecture/microservices",
+                  },
+                  { label: "Hexagonal", slug: "architecture/hexagonal" },
+                  { label: "CQRS", slug: "architecture/cqrs" },
+                  { label: "Event-Driven", slug: "architecture/event-driven" },
+                ],
+              },
+            ],
+          },
+          {
             label: "JavaScript Patternlar",
             link: "/introduction",
             icon: "open-book",

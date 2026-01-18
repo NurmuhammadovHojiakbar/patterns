@@ -1,0 +1,39 @@
+---
+title: Clean Architecture
+description: Robert C. Martin (Uncle Bob) tomonidan taklif etilgan arxitektura.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Clean Architecture nima?
+
+**Clean Architecture** (Toza Arxitektura) — bu Robert C. Martin (Uncle Bob) tomonidan taklif etilgan dasturiy ta'minotni loyihalash falsafasidir. Uning asosiy maqsadi — biznes logikani tashqi dunyodan (UI, Database, Framework) mustaqil qilishdir.
+
+Bu arxitektura odatda halqalar (layers) ko'rinishida tasvirlanadi:
+
+1.  **Entities (Enterprise Business Rules):** Eng ichki qatlam. Butun korxona uchun umumiy bo'lgan biznes qoidalar va obyektlar.
+2.  **Use Cases (Application Business Rules):** Ilova uchun maxsus biznes logika.
+3.  **Interface Adapters (Controllers, Gateways, Presenters):** Ma'lumotlarni Use Cases va Tashqi dunyo o'rtasida o'zgartirib beruvchi qatlam.
+4.  **Frameworks & Drivers (Web, DB, UI):** Eng tashqi qatlam. Bu yerda detallar joylashgan.
+
+## Dependency Rule (Bog'liqlik Qoidasi)
+
+Eng muhim qoida: **Bog'liqlik (Dependency) faqat ichkariga qarab yo'nalgan bo'lishi kerak.**
+
+Bu shuni anglatadiki:
+
+- Ichki qatlamlar tashqi qatlamlar haqida **hech narsa bilmasligi kerak**.
+- Biznes logika (Use Case) hech qachon ma'lumotlar bazasi yoki web freymvorkga bog'liq bo'lmasligi kerak.
+
+## Frontendda Clean Architecture
+
+Frontendda bu arxitekturani to'liq qo'llash ba'zan qiyin bo'lishi mumkin, lekin uning prinsiplari juda foydali:
+
+- **Domain Layer:** Biznes modellarni va qoidalarni UI dan ajratib saqlash.
+- **Data Layer (Repository Pattern):** API dan ma'lumot olishni abstraksiya qilish. Agar ertaga REST API o'rniga GraphQL ishlatilsa ham, UI o'zgarmasligi kerak.
+- **UI Layer:** Faqat ko'rsatish bilan shug'ullanishi kerak.
+
+<Aside type="tip">
+  Clean Architecture dasturni o'zgarishlarga chidamli qiladi. Freymvorkni,
+  bazani yoki UI kutubxonasini almashtirish biznes logikaga ta'sir qilmaydi.
+</Aside>

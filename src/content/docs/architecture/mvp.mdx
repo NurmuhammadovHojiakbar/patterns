@@ -1,0 +1,45 @@
+---
+title: MVP (Model-View-Presenter)
+description: Model-View-Presenter arxitekturasi va uning MVC dan farqi.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## MVP nima?
+
+**MVP** (**M**odel-**V**iew-**P**resenter) — bu asosan foydalanuvchi interfeysi (UI) bor ilovalarda qo'llaniladigan arxitektura patternidir. U **MVC** ning o'zgargan ko'rinishi bo'lib, View va Model ni butunlay ajratishga qaratilgan.
+
+Asosiy komponentlar:
+
+1.  **Model:** Ma'lumotlar va biznes logika.
+2.  **View:** Foydalanuvchi interfeysi (UI). U juda "passiv" bo'ladi.
+3.  **Presenter:** Model va View o'rtasidagi vositachi. U View dan hodisalarni qabul qiladi va View ga nima qilishni buyuradi.
+
+## MVC vs MVP: Farqi nimada?
+
+MVC da `Controller` Model ni yangilaydi, lekin `View` ba'zan to'g'ridan-to'g'ri `Model` dan o'zgarishlarni tinglashi mumkin.
+MVP da esa **View va Model bir-birini mutlaqo bilmaydi**. Barcha aloqa `Presenter` orqali o'tadi.
+
+```mermaid
+graph TD
+    View <-->|User Events / Commands| Presenter
+    Presenter <-->|Get/Set Data| Model
+```
+
+- **View** faqat interfeysni chizadi va `Presenter` ga "tugma bosildi" deb xabar beradi.
+- **Presenter** biznes logikani bajaradi va `View` ga "matnni o'zgartir" yoki "xabarni ko'rsat" deb buyruq beradi.
+
+## Afzalliklari
+
+<Aside type="tip">
+  * **Testlash juda oson:** View interfeys (Interface) sifatida qaraladi,
+  shuning uchun Presenter ni View siz (mock object bilan) testlash oson. *
+  **Separation of Concerns:** UI va Logika to'liq ajratilgan.
+</Aside>
+
+## Kamchiliklari
+
+<Aside type="caution">
+  * **Kod ko'payishi:** Har bir View uchun alohida Presenter yozish kerak
+  bo'lishi mumkin. * **Murakkablik:** Kichik ilovalar uchun ortiqcha.
+</Aside>

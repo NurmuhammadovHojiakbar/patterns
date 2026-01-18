@@ -1,0 +1,45 @@
+---
+title: Flux
+description: Bir tomonlama ma'lumot oqimi (Unidirectional Data Flow)ga asoslangan arxitektura.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Flux nima?
+
+**Flux** — bu Facebook tomonidan React ilovalari uchun ishlab chiqilgan arxitektura patterni. Uning asosiy g'oyasi — **Unidirectional Data Flow** (Bir tomonlama ma'lumot oqimi). Bu MVC dagi murakkab va chalkash ma'lumot oqimlarini oldini olishga yordam beradi.
+
+Flux 4 ta asosiy qismdan iborat:
+
+1.  **Actions:** Tizimda sodir bo'ladigan hodisalar (masalan, `ADD_TODO`).
+2.  **Dispatcher:** Barcha actionlarni qabul qilib, ro'yxatdan o'tgan Store larga tarqatuvchi markaziy xab (hub).
+3.  **Stores:** Ma'lumotlar (State) va logikani saqlaydi.
+4.  **Views:** React komponentlari (UI).
+
+## Ishlash tartibi (Flow)
+
+Flux da ma'lumot faqat bitta yo'nalishda harakatlanadi:
+
+```mermaid
+graph LR
+    Action --> Dispatcher
+    Dispatcher --> Store
+    Store --> View
+    View -- "Trigger Action" --> Action
+```
+
+1.  **View** foydalanuvchi harakati natijasida **Action** yaratadi.
+2.  **Action** **Dispatcher** ga yuboriladi.
+3.  **Dispatcher** uni barcha **Store** larga tarqatadi.
+4.  **Store** o'ziga kerakli action ni ushlab olib, o'z holatini (state) yangilaydi va o'zgarish haqida xabar beradi (emit change).
+5.  **View** (Controller-View) o'zgarishni eshitib, o'zini yangilaydi.
+
+## Redux va Flux
+
+Ko'pchilik Flux ni **Redux** orqali taniydi. Redux — bu Flux g'oyasining eng mashhur implementatsiyasi, lekin u biroz soddalashtirilgan (yagona Store, Dispatcher yo'q).
+
+<Aside type="note" title="Qiziqarli fakt">
+  MVC da Model va View o'rtasidagi aloqa ikki tomonlama bo'lib, kattalashganda
+  "spagetti" kodga aylanib ketishi mumkin edi. Flux bu muammoni "bir tomonlama
+  oqim" orqali hal qildi.
+</Aside>

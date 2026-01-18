@@ -1,0 +1,58 @@
+---
+title: Atomic Design
+description: Brad Frost tomonidan ishlab chiqilgan dizayn tizimlari metodologiyasi.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Atomic Design nima?
+
+**Atomic Design** — bu Brad Frost tomonidan ishlab chiqilgan metodologiya bo'lib, u foydalanuvchi interfeyslarini (UI) eng kichik bo'laklardan boshlab, murakkab sahifalargacha bosqichma-bosqich qurishni nazarda tutadi. Bu kimyoviy elementlarning birlashishiga o'xshaydi.
+
+Metodologiya 5 ta bosqichdan iborat:
+
+1.  **Atoms (Atomlar)**
+2.  **Molecules (Molekulalar)**
+3.  **Organisms (Organizmlar)**
+4.  **Templates (Shablonlar)**
+5.  **Pages (Sahifalar)**
+
+## Bosqichlar
+
+### 1. Atoms
+
+Bular eng kichik, bo'linmas elementlar. Ularning o'zi hech qanday foydali funksiya bajarmasligi mumkin, lekin ular tizimning asosi hisoblanadi.
+
+- _Misol:_ Button, Input, Label, Icon, Fontlar, Ranglar.
+
+### 2. Molecules
+
+Molekulalar — bu atomlarning birlashuvi. Ular birgalikda oddiy funksional birlikni tashkil qiladi.
+
+- _Misol:_ Search Form (Input + Button), User Card (Avatar + Name).
+
+### 3. Organisms
+
+Organizmlar — bu molekulalar va atomlarning murakkabroq birlashuvi. Ular interfeysning alohida, mustaqil qismlari hisoblanadi.
+
+- _Misol:_ Header (Logo + Navigation + Search Form), Footer, Chat Widget.
+
+### 4. Templates
+
+Shablonlar — bu organizmlarning sahifadagi joylashuvi (layout). Bu yerda hali real ma'lumot yo'q, faqat struktura bor.
+
+- _Misol:_ Dashboard Layout, Blog Post Layout.
+
+### 5. Pages
+
+Sahifalar — bu shablonlarning real ma'lumotlar bilan to'ldirilgan holati. Bu foydalanuvchi ko'radigan yakuniy natija.
+
+## Afzalliklari
+
+<Aside type="tip">
+  * **Qayta foydalanish (Reusability):** Komponentlar kichik bo'laklarga
+  bo'lingani uchun ularni qayta ishlatish oson. * **Izchillik (Consistency):**
+  Butun loyiha bo'ylab bir xil dizayn va komponentlardan foydalanish
+  ta'minlanadi. * **Design System:** Atomic Design — bu Design System yaratish
+  uchun ideal poydevor.
+</Aside>

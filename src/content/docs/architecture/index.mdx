@@ -1,0 +1,56 @@
+---
+title: Arxitekturaga kirish
+description: Dasturiy ta'minot arxitekturasi haqida umumiy tushuncha, uning ahamiyati va asosiy turlari.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Dasturiy ta'minot arxitekturasi nima?
+
+**Dasturiy ta'minot arxitekturasi** — bu dasturiy tizimning yuqori darajadagi tuzilishi bo'lib, u tizimning tarkibiy qismlarini, ular o'rtasidagi munosabatlarni va ularning o'zaro ta'sir qilish qoidalarini belgilaydi. Oddiy qilib aytganda, bu binoning loyihasiga o'xshaydi: g'ishtlar va bo'yoqdan oldin, binoning qanday turishi, xonalar joylashuvi va kommunikatsiyalar rejasi tuziladi.
+
+Yaxshi arxitektura — bu nafaqat kodning ishlashi, balki uning kelajakda o'zgarishi, kengayishi va parvarish qilinishi osonligini ta'minlaydi.
+
+## Nima uchun arxitektura muhim?
+
+1.  **Masshtablilik (Scalability):** Tizim o'sib borishi bilan uni boshqarish qiyinlashadi. Yaxshi arxitektura yangi funksiyalarni qo'shishni osonlashtiradi.
+2.  **Parvarishlash (Maintainability):** Kodni tushunish va xatolarni tuzatish oson bo'ladi.
+3.  **Jamoaviy ishlash:** Aniq tuzilma katta jamoalarga bir vaqtning o'zida turli qismlar ustida ishlash imkonini beradi.
+4.  **Ishonchlilik (Reliability):** Tizimning barqaror ishlashini ta'minlaydi.
+
+## Dokumantatsiya Tuzilishi
+
+Ushbu qo'llanmada arxitektura patternlari uchta asosiy guruhga bo'lingan:
+
+### 1. Umumiy (General)
+
+Dasturlash tilidan yoki platformadan qat'iy nazar ishlatiladigan fundamental prinsiplar.
+
+- **[Clean Architecture](/architecture/clean-architecture):** Biznes logikani markazga qo'yuvchi va uni tashqi detallardan himoya qiluvchi yondashuv.
+
+### 2. Frontend
+
+Foydalanuvchi interfeysini (UI) qurishda ishlatiladigan patternlar.
+
+- **[MVC](/architecture/mvc) (Model-View-Controller):** Klassik ajratish usuli.
+- **[MVVM](/architecture/mvvm) (Model-View-ViewModel):** Data-binding ga asoslangan (Vue, Angular).
+- **[MVP](/architecture/mvp) (Model-View-Presenter):** View va Model ni to'liq ajratish.
+- **[Flux](/architecture/flux):** Bir tomonlama ma'lumot oqimi (React/Redux).
+- **[Atomic Design](/architecture/atomic-design):** UI komponentlarini qurish metodologiyasi.
+- **[FSD](/architecture/fsd) (Feature-Sliced Design):** Katta frontend loyihalar uchun qatlamli arxitektura.
+
+### 3. Backend
+
+Server tomonida ishlatiladigan, tizimlar o'rtasidagi aloqa va ma'lumotlarni qayta ishlashga qaratilgan patternlar.
+
+- **[Microservices](/architecture/microservices):** Kichik, mustaqil xizmatlar to'plami.
+- **[Hexagonal Architecture](/architecture/hexagonal):** Tashqi dunyo bilan aloqani portlar va adapterlar orqali boshqarish.
+- **[CQRS](/architecture/cqrs):** O'qish va yozish operatsiyalarini ajratish.
+- **[Event-Driven](/architecture/event-driven):** Hodisalarga asoslangan asinxron aloqa.
+
+---
+
+<Aside type="note">
+  Har bir pattern o'z o'rni va vazifasiga ega. "Eng yaxshi" arxitektura mavjud
+  emas, har bir loyiha talablaridan kelib chiqib, mos yechimni tanlash kerak.
+</Aside>

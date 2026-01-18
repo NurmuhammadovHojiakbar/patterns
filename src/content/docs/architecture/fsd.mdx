@@ -1,0 +1,60 @@
+---
+title: FSD (Feature-Sliced Design)
+description: Katta va o'rta hajmdagi frontend loyihalar uchun mo'ljallangan arxitektura metodologiyasi.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## FSD nima?
+
+**Feature-Sliced Design** (FSD) — bu frontend ilovalarni masshtablash va parvarishlashni osonlashtirish uchun mo'ljallangan zamonaviy arxitektura metodologiyasi. U kodni uchta asosiy parametr bo'yicha ajratadi: **Layers** (Qatlamlar), **Slices** (Kesimlar/Modullar) va **Segments** (Segmentlar).
+
+FSD ning asosiy maqsadi — **"High Cohesion"** (Yuqori bog'liqlik - modul ichida) va **"Low Coupling"** (Past bog'liqlik - modullar orasida) tamoyillariga erishishdir.
+
+## Struktura: Qatlamlar (Layers)
+
+FSD da 7 ta standartlashtirilgan qatlam mavjud (yuqoridan pastga qarab):
+
+1.  **App:** Ilovani ishga tushirish logikasi (providers, global styles, router).
+2.  **Processes:** (Deprecated) Murakkab, ko'p qadamli jarayonlar (masalan, to'lov jarayoni).
+3.  **Pages:** Ilovaning to'liq sahifalari.
+4.  **Widgets:** Sahifaning mustaqil bloklari (masalan, Header, Sidebar, NewsFeed).
+5.  **Features:** Foydalanuvchiga qiymat beruvchi funksional qismlar (masalan, "Like bosish", "Savatga qo'shish").
+6.  **Entities:** Biznes mohiyatlari (masalan, User, Product, Order).
+7.  **Shared:** Lozihalarga xos bo'lmagan, qayta ishlatiluvchi kodlar (UI kit, libs, API client).
+
+### Dependency qoidasi
+
+Bu eng muhim qoidadir: **Modul faqat o'zidan pastdagi qatlamlardan foydalanishi mumkin.**
+Masalan: `Features` qatlami `Entities` va `Shared` dan foydalana oladi, lekin `Widgets` dan emas.
+
+## Slices (Kesimlar)
+
+Har bir qatlam (Shared dan tashqari) **Slice** larga bo'linadi. Slice — bu ma'lum bir biznes sohaga tegishli kodlar to'plami.
+
+- _Entities/User_
+- _Entities/Post_
+- _Features/Auth_
+
+## Segments (Segmentlar)
+
+Slice ichidagi kodlar texnik vazifasiga ko'ra segmentlarga bo'linadi:
+
+- `ui` (komponentlar)
+- `model` (store, actions)
+- `lib` (yordamchi funksiyalar)
+- `api` (backend so'rovlari)
+
+## Nima uchun FSD?
+
+<Aside type="tip">
+  * **Aniq tuzilma:** Har bir faylning o'z o'rni bor. Yangi kelgan dasturchi
+  loyihani tushunishi oson bo'ladi. * **Izolyatsiya:** Bir feature ning
+  o'zgarishi boshqalariga ta'sir qilmaydi. * **Masshtablilik:** Loyiha
+  kattalashgani sari xaosga aylanib ketmaydi.
+</Aside>
+
+<Aside type="note">
+  FSD boshlanishida biroz murakkab tuyulishi mumkin va boilerplate kodni talab
+  qiladi, ammo uzoq muddatli loyihalarda bu o'zini to'liq oqlaydi.
+</Aside>
