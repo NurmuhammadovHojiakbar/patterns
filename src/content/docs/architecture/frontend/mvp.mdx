@@ -43,3 +43,70 @@ graph TD
   * **Kod ko'payishi:** Har bir View uchun alohida Presenter yozish kerak
   bo'lishi mumkin. * **Murakkablik:** Kichik ilovalar uchun ortiqcha.
 </Aside>
+
+## Amaliy Misol (Vanilla JS)
+
+```javascript
+// View Interface
+class TodoView {
+  constructor(presenter) {
+    this.presenter = presenter;
+    this.input = document.getElementById("todo-input");
+    this.list = document.getElementById("todo-list");
+    document.getElementById("add-btn").onclick = () =>
+      this.presenter.onAddClick();
+  }
+
+  getInputValue() {
+    return this.input.value;
+  }
+
+  showTodos(todos) {
+    this.list.innerHTML = todos.map((t) => `<li>${t}</li>`).join("");
+  }
+
+  clearInput() {
+    this.input.value = "";
+  }
+}
+
+// Presenter
+class TodoPresenter {
+  constructor(model) {
+    this.model = model;
+    this.view = null;
+  }
+
+  setView(view) {
+    this.view = view;
+  }
+
+  onAddClick() {
+    const text = this.view.getInputValue();
+    if (text) {
+      this.model.add(text);
+      this.view.showTodos(this.model.getAll());
+      this.view.clearInput();
+    }
+  }
+}
+
+// Model
+class TodoModel {
+  constructor() {
+    this.todos = [];
+  }
+  add(text) {
+    this.todos.push(text);
+  }
+  getAll() {
+    return this.todos;
+  }
+}
+
+// Ishga tushirish
+const model = new TodoModel();
+const presenter = new TodoPresenter(model);
+const view = new TodoView(presenter);
+presenter.setView(view);
+```

@@ -56,3 +56,43 @@ Sahifalar — bu shablonlarning real ma'lumotlar bilan to'ldirilgan holati. Bu f
   ta'minlanadi. * **Design System:** Atomic Design — bu Design System yaratish
   uchun ideal poydevor.
 </Aside>
+
+## Amaliy Misol (React)
+
+```jsx
+// Atom: Button
+function Button({ children, onClick }) {
+  return <button onClick={onClick}>{children}</button>;
+}
+
+// Atom: Input
+function Input({ value, onChange, placeholder }) {
+  return <input value={value} onChange={onChange} placeholder={placeholder} />;
+}
+
+// Molecule: SearchForm (Input + Button)
+function SearchForm({ onSearch }) {
+  const [query, setQuery] = React.useState("");
+  return (
+    <div>
+      <Input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Qidirish..."
+      />
+      <Button onClick={() => onSearch(query)}>Qidirish</Button>
+    </div>
+  );
+}
+
+// Organism: Header (Logo + SearchForm)
+function Header() {
+  const handleSearch = (q) => console.log("Qidiriladi:", q);
+  return (
+    <header>
+      <h1>Logotip</h1>
+      <SearchForm onSearch={handleSearch} />
+    </header>
+  );
+}
+```

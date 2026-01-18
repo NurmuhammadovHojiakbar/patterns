@@ -43,3 +43,48 @@ Ko'pchilik Flux ni **Redux** orqali taniydi. Redux — bu Flux g'oyasining eng m
   "spagetti" kodga aylanib ketishi mumkin edi. Flux bu muammoni "bir tomonlama
   oqim" orqali hal qildi.
 </Aside>
+
+## Amaliy Misol (Redux uslubida)
+
+```javascript
+// Action Types
+const ADD_TODO = "ADD_TODO";
+
+// Action Creator
+function addTodo(text) {
+  return { type: ADD_TODO, payload: text };
+}
+
+// Reducer (Store logikasi)
+function todoReducer(state = [], action) {
+  switch (action.type) {
+    case ADD_TODO:
+      return [...state, action.payload];
+    default:
+      return state;
+  }
+}
+
+// Store
+function createStore(reducer) {
+  let state = reducer(undefined, {});
+  const listeners = [];
+
+  return {
+    getState: () => state,
+    dispatch: (action) => {
+      state = reducer(state, action);
+      listeners.forEach((fn) => fn());
+    },
+    subscribe: (fn) => listeners.push(fn),
+  };
+}
+
+// Foydalanish
+const store = createStore(todoReducer);
+store.subscribe(() => console.log("State:", store.getState()));
+store.dispatch(addTodo("Birinchi vazifa"));
+store.dispatch(addTodo("Ikkinchi vazifa"));
+// State: ["Birinchi vazifa"]
+// State: ["Birinchi vazifa", "Ikkinchi vazifa"]
+```

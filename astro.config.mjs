@@ -54,22 +54,22 @@ export default defineConfig({
                   { label: "Kirish", slug: "architecture" },
                   {
                     label: "Clean Architecture",
-                    slug: "architecture/clean-architecture",
+                    slug: "architecture/general/clean-architecture",
                   },
                 ],
               },
               {
                 label: "Frontend",
                 items: [
-                  { label: "MVC", slug: "architecture/mvc" },
-                  { label: "MVVM", slug: "architecture/mvvm" },
-                  { label: "MVP", slug: "architecture/mvp" },
-                  { label: "Flux", slug: "architecture/flux" },
+                  { label: "MVC", slug: "architecture/frontend/mvc" },
+                  { label: "MVVM", slug: "architecture/frontend/mvvm" },
+                  { label: "MVP", slug: "architecture/frontend/mvp" },
+                  { label: "Flux", slug: "architecture/frontend/flux" },
                   {
                     label: "Atomic Design",
-                    slug: "architecture/atomic-design",
+                    slug: "architecture/frontend/atomic-design",
                   },
-                  { label: "FSD", slug: "architecture/fsd" },
+                  { label: "FSD", slug: "architecture/frontend/fsd" },
                 ],
               },
               {
@@ -77,11 +77,17 @@ export default defineConfig({
                 items: [
                   {
                     label: "Microservices",
-                    slug: "architecture/microservices",
+                    slug: "architecture/backend/microservices",
                   },
-                  { label: "Hexagonal", slug: "architecture/hexagonal" },
-                  { label: "CQRS", slug: "architecture/cqrs" },
-                  { label: "Event-Driven", slug: "architecture/event-driven" },
+                  {
+                    label: "Hexagonal",
+                    slug: "architecture/backend/hexagonal",
+                  },
+                  { label: "CQRS", slug: "architecture/backend/cqrs" },
+                  {
+                    label: "Event-Driven",
+                    slug: "architecture/backend/event-driven",
+                  },
                 ],
               },
             ],

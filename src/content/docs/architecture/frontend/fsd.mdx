@@ -58,3 +58,40 @@ Slice ichidagi kodlar texnik vazifasiga ko'ra segmentlarga bo'linadi:
   FSD boshlanishida biroz murakkab tuyulishi mumkin va boilerplate kodni talab
   qiladi, ammo uzoq muddatli loyihalarda bu o'zini to'liq oqlaydi.
 </Aside>
+
+## Amaliy Misol (Papka Strukturasi)
+
+```
+src/
+├── app/                    # App layer: provider, router
+│   └── main.tsx
+├── pages/                  # Pages layer
+│   └── home/
+│       └── ui/
+│           └── HomePage.tsx
+├── widgets/                # Widgets layer
+│   └── header/
+│       └── ui/
+│           └── Header.tsx
+├── features/               # Features layer
+│   └── add-to-cart/
+│       ├── ui/
+│       │   └── AddToCartButton.tsx
+│       └── model/
+│           └── useAddToCart.ts
+├── entities/               # Entities layer
+│   └── product/
+│       ├── ui/
+│       │   └── ProductCard.tsx
+│       ├── model/
+│       │   └── product.types.ts
+│       └── api/
+│           └── productApi.ts
+└── shared/                 # Shared layer
+    ├── ui/
+    │   └── Button.tsx
+    └── lib/
+        └── formatPrice.ts
+```
+
+**Qoida:** `features/add-to-cart` faqat `entities/product` va `shared` dan import qilishi mumkin, lekin `widgets` yoki `pages` dan emas.
